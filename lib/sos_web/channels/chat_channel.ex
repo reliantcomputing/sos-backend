@@ -32,27 +32,13 @@ defmodule SosWeb.ChatChannel do
     chat = %{ name: "#{ref} - sit ##{sit.sit_number}" }
     with {:ok, chat} <- Sos.Chats.create_chat(waiter, chat) do
       name = "#{waiter.last_name} #{waiter.first_name}"
-      message = %{ message_from: "WAITER", text: "Hi, I am #{name}, How can I assist you today?" }
-      IO.inspect(Sos.Messages.create_message(chat, message))
-      {:ok, message} = Sos.Messages.create_message(chat, message)
       broadcast(socket, "accept:chat", %{
         chat: %{
           id: chat.id,
           ref: ref,
           sit_number: sit.sit_number,
           name: chat.name,
-          messages: [
-            %{
-              id: message.id,
-              chatId: chat.id,
-              seen: message.seen,
-              text: message.text,
-              user: %{
-                _id: 1
-              },
-              message_from: message.message_from
-            }
-          ],
+          messages: [],
           waiter: %{
             name: name
           }
@@ -70,6 +56,7 @@ defmodule SosWeb.ChatChannel do
     chat = Sos.Chats.get_chat!(chat_id)
     message_from = payload["message_from"]
     with{:ok, message} <- Sos.Messages.create_message(chat, payload) do
+    IO.inspect("=======================================")
       broadcast(socket, "send:message:#{chat_id}", %{
         id: message.id,
         chatId: chat_id,
