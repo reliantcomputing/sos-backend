@@ -59,6 +59,18 @@ defmodule SosWeb.OrderChannel do
   end
 
   @impl true
+  def handle_in("pay:order:"<>order_id, payload, socket) do
+    order = Sos.Orders.get_order!(order_id)
+    IO.inspect(Sos.Orders.update_order(order, payload))
+    with {:ok, order} <- Sos.Orders.update_order(order, payload) do
+      broadcast(socket, "pay:order:"<>order_id, %{
+        id: order.id,
+        status: "ORDER_PAID"
+      })
+    end
+  end
+
+  @impl true
   def handle_in("approve:order:"<>order_id, payload, socket) do
     IO.inspect("Updating order............................")
     order = Sos.Orders.get_order!(order_id)
