@@ -13,7 +13,8 @@ defmodule SosWeb.ChatChannel do
     sit_number = payload["sit_number"]
     sit = Sos.Sits.get_by_sit_number(sit_number)
     broadcast(socket,"create:chat", %{
-      sit_number: sit.sit_number
+      sit_number: sit.sit_number,
+      waiting: true
     })
     {:reply, :ok, socket}
   end
@@ -58,7 +59,7 @@ defmodule SosWeb.ChatChannel do
     with{:ok, message} <- Sos.Messages.create_message(chat, payload) do
     IO.inspect("=======================================")
       broadcast(socket, "send:message:#{chat_id}", %{
-        id: message.id,
+        _id: message.id,
         chatId: chat_id,
         text: message.text,
         seen: false,

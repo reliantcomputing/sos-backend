@@ -34,7 +34,7 @@ emp_id = Sos.Randomizer.randomizer(8)
 user = %{
   first_name: "Tumisho",
   last_name: "Mothobekhi",
-  email: "tumi@gmail.com",
+  email: "tumi.manager@gmail.com",
   emp_id: "#{emp_id}",
   phone_number: "07385945862",
   street_name: "Sekoting",
@@ -43,7 +43,7 @@ user = %{
 }
 
 if !Sos.Accounts.get_user_by_email(user.email) do
-  role = Sos.Roles.get_role_by_name(super_admin_role_name)
+  role = Sos.Roles.get_role_by_name(manager_role_name)
   IO.inspect(Sos.Accounts.register_user(role, user))
 #  Sos.Accounts.register_user(role, user)
 end
