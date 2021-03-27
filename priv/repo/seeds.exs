@@ -34,7 +34,7 @@ emp_id = Sos.Randomizer.randomizer(8)
 user = %{
   first_name: "Tumisho",
   last_name: "Mothobekhi",
-  email: "vhuyo.kitchen@gmail.com",
+  email: "vhuyo.waiter@gmail.com",
   emp_id: "#{emp_id}",
   phone_number: "07385945862",
   street_name: "Sekoting",
